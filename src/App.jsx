@@ -13,7 +13,13 @@ class App extends Component {
 
   addHealthRecord = (newRecord) => {
     this.setState((prevState) => ({
-      healthRecords: [...prevState.healthRecords, newRecord],
+      healthRecords: [
+        ...prevState.healthRecords,
+        {
+          ...newRecord,
+          id: prevState.healthRecords.length + 1,
+        },
+      ],
     }));
   };
 
@@ -26,6 +32,8 @@ class App extends Component {
     });
   };
   render() {
+    // console.log("Health Records Data:", this.state.healthRecords);
+
     return (
       <Router>
         <div>

@@ -55,10 +55,35 @@ class HealthList extends Component {
   };
 
   handleDelete = (recordId) => {
-    console.log("Delete item with id ${recordId}");
-  };
+    console.log("Deleting record with id:", recordId);
+
+    const updatedRecords = this.props.healthRecords.filter(
+      (record) => record.id !== recordId
+    );
+  
+    console.log("Updated Records:", updatedRecords);
+
+    this.props.editRecord(recordId, { healthRecords: updatedRecords });
+    console.log("After deleting, healthRecords in App component:", this.props.healthRecords);
+
+
+    if (this.state.editedRecordId === recordId) {
+        this.setState({
+          editedRecordId: null,
+          editedRecordData: {
+            type: "",
+            date: "",
+            info: "",
+          },
+        });
+      }
+    };
+
+    
 
   render() {
+    console.log("HealthList component is rendering.");
+
     const { healthRecords } = this.props;
 
     if (!healthRecords || healthRecords.length === 0) {
