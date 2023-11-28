@@ -4,6 +4,27 @@ import RecordForm from "./components/RecordForm";
 import HealthList from "./components/HealthList";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      healthRecords: [],
+    };
+  }
+
+  addHealthRecord = (newRecord) => {
+    this.setState((prevState) => ({
+      healthRecords: [...prevState.healthRecords, newRecord],
+    }));
+  };
+
+  editRecord = (recordId, updatedRecordData) => {
+    const updatedRecords = this.state.healthRecords.map((record) =>
+      record.id === recordId ? { ...record, ...updatedRecordData } : record
+    );
+    this.setState({
+      healthRecords: updatedRecords,
+    });
+  };
   render() {
     return (
       <Router>
@@ -19,8 +40,19 @@ class App extends Component {
             </ul>
           </nav>
           <Routes>
-            <Route path="/record" element={<RecordForm />} />
-            <Route path="/health" element={<HealthList />} />
+            <Route
+              path="/record"
+              element={<RecordForm addHealthRecord={this.addHealthRecord} />}
+            />
+            <Route
+              path="/health"
+              element={
+                <HealthList
+                  healthRecords={this.state.healthRecords}
+                  editRecord={this.editRecord}
+                />
+              }
+            />
           </Routes>
         </div>
       </Router>
