@@ -6,10 +6,21 @@ import HealthList from "./components/HealthList";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      healthRecords: [],
-    };
+     const storedRecords = localStorage.getItem("healthRecords");
+     this.state = {
+        healthRecords: storedRecords ? JSON.parse(storedRecords) : [],
+     };
   }
+
+  updateHealthRecords = (newRecords, callback) => {
+    this.setState({ healthRecords: newRecords }, () => {
+      localStorage.setItem("healthRecords", JSON.stringify(newRecords));
+      if (callback) {
+        callback();
+      }
+    });
+  };
+  
 
   addHealthRecord = (newRecord) => {
     this.setState((prevState) => ({
@@ -58,6 +69,7 @@ class App extends Component {
                 <HealthList
                   healthRecords={this.state.healthRecords}
                   editRecord={this.editRecord}
+                  updateHealthRecords={this.updateHealthRecords} 
                 />
               }
             />

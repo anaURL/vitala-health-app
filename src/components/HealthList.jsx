@@ -2,7 +2,6 @@ import { Component } from "react";
 import PropTypes from 'prop-types';
 
 
-
 class HealthList extends Component {
   constructor(props) {
     super(props);
@@ -61,11 +60,10 @@ class HealthList extends Component {
       (record) => record.id !== recordId
     );
   
-    console.log("Updated Records:", updatedRecords);
+    this.props.updateHealthRecords(updatedRecords, () => {
+        console.log("After deleting, healthRecords in App component:", updatedRecords);
 
-    this.props.editRecord(recordId, { healthRecords: updatedRecords });
-    console.log("After deleting, healthRecords in App component:", this.props.healthRecords);
-
+    })
 
     if (this.state.editedRecordId === recordId) {
         this.setState({
@@ -152,6 +150,8 @@ HealthList.defaultProps = {
 HealthList.propTypes = {
     healthRecords: PropTypes.array.isRequired,
     editRecord: PropTypes.func.isRequired,
+    updateHealthRecords: PropTypes.func.isRequired,
+
   };
 
 export default HealthList;
