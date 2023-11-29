@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
 class RecordForm extends Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class RecordForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Handling form submission");
+
 
     const newRecord = {
       id: this.state.healthRecords.length + 1,
@@ -35,7 +38,6 @@ class RecordForm extends Component {
       info: "",
     });
 };
-
 
   render() {
     // console.log("Rendering Record component");
@@ -66,6 +68,10 @@ class RecordForm extends Component {
           />
           <button type="submit">Submit </button>
         </form>
+        <div className="button-container">
+      <Link to="/record" className="button-link"> Track </Link>
+      <Link to="/health" className="button-link"> Review </Link>
+      </div> 
       </div>
     );
   }

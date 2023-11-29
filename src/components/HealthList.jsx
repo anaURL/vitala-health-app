@@ -1,5 +1,6 @@
 import { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class HealthList extends Component {
   constructor(props) {
@@ -29,15 +30,13 @@ class HealthList extends Component {
   };
 
   handleEditChange = (e) => {
-    this.setState((prevState) =>({
+    this.setState((prevState) => ({
       editedRecordData: {
         ...prevState.editedRecordData,
         [e.target.name]: e.target.value,
       },
     }));
   };
-
-
 
   handleEditSubmit = () => {
     this.props.editRecord(
@@ -53,7 +52,6 @@ class HealthList extends Component {
         info: "",
       },
     });
-
   };
 
   handleDelete = (recordId) => {
@@ -62,52 +60,60 @@ class HealthList extends Component {
     const updatedRecords = this.props.healthRecords.filter(
       (record) => record.id !== recordId
     );
-  
-    this.props.updateHealthRecords(updatedRecords, () => {
-        console.log("After deleting, healthRecords in App component:", updatedRecords);
 
-    })
+    this.props.updateHealthRecords(updatedRecords, () => {
+      console.log(
+        "After deleting, healthRecords in App component:",
+        updatedRecords
+      );
+    });
 
     if (this.state.editedRecordId === recordId) {
-        this.setState({
-          editedRecordId: null,
-          editedRecordData: {
-            type: "",
-            date: "",
-            info: "",
-          },
-        });
-      }
-
-    };
-
+      this.setState({
+        editedRecordId: null,
+        editedRecordData: {
+          type: "",
+          date: "",
+          info: "",
+        },
+      });
+    }
+  };
 
   render() {
     console.log("HealthList component is rendering.");
 
     const { healthRecords } = this.props;
-
-    if (!healthRecords || healthRecords.length === 0) {
-      return <p> No recorded items available</p>; //  handle the case where healthRecords not available
-    }
-
     return (
-      <div>
+      <div className="container">
         <h2>Health Records</h2>
-        <ul>
-          {healthRecords.map((record,index) => (
-            <li key={index}>
-              <span>
+        
+          {healthRecords.length === 0 ? (
+        <p>No recorded items available</p>
+      ) : ( 
+        <div>
+          {healthRecords.map((record, index) => (
+            <div key={index}> 
+              <h3>
                 {record.type} - {record.date}
-              </span>
+              </h3>
               <p>{record.info}</p>
               <button onClick={() => this.handleEdit(record.id)}>Edit </button>
               <button onClick={() => this.handleDelete(record.id)}>
                 Delete{" "}
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
+    )}
+            <div className="button-container">
+          <Link to="/record" className="button-link">
+            Track
+          </Link>
+          <Link to="/" className="button-link">
+            Home
+          </Link>
+          </div>
 
         {this.state.editedRecordId && (
           <div>
@@ -142,6 +148,7 @@ class HealthList extends Component {
         )}
 
       </div>
+      
     );
   }
 }
@@ -152,10 +159,9 @@ HealthList.defaultProps = {
 };
 
 HealthList.propTypes = {
-    healthRecords: PropTypes.array.isRequired,
-    editRecord: PropTypes.func.isRequired,
-    updateHealthRecords: PropTypes.func.isRequired,
-
-  };
+  healthRecords: PropTypes.array.isRequired,
+  editRecord: PropTypes.func.isRequired,
+  updateHealthRecords: PropTypes.func.isRequired,
+};
 
 export default HealthList;
