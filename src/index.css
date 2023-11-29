@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Palanquin+Dark:wght@400;500&family=Roboto:wght@500;700&family=Young+Serif&display=swap');
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    height: 100%;
+  }
+
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+  }
+
+  .container {
+    background-color: #ffef8a;
+    color: #8a2be2;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 35vw;
+    height: 50.5vw;
+    margin-right: 1rem;
+    padding: 1.5rem;
+    overflow: auto;
+  }  
+
+  .button-container {
+    display: flex;
+    
+  }
+  
+  .button-link {
+    display: flex;
+    padding: 10px 20px;
+    margin: 10px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #8a2be2;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+    font-family: 'Cutive Mono', monospace;
+    font-size: 1.5rem;
+  }
+  
+
+  h1 {
+    font-weight: 700;
+    font-size: 6rem;
+    margin-bottom: 0.2rem;
+    text-align: center
+  }
+
+  p {
+    font-family: 'Cutive Mono', monospace;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 0.1rem;
+}
+
+img {
+    margin-top: 20px;
+}
