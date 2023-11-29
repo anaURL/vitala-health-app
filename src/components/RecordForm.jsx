@@ -24,13 +24,21 @@ class RecordForm extends Component {
     e.preventDefault();
     console.log("Handling form submission");
 
+    const parsedDate = new Date(this.state.date);
 
-    const newRecord = {
-      id: this.state.healthRecords.length + 1,
-      type: this.state.type,
-      date: this.state.date,
-      info: this.state.info,
-    };
+    const formattedDate = parsedDate.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+      const newRecord = {
+        id: this.state.healthRecords.length + 1,
+        type: this.state.type,
+        date: formattedDate,
+        info: this.state.info,
+      };
+    
+
 
     // eslint-disable-next-line react/prop-types
     this.props.addHealthRecord(newRecord);
@@ -60,9 +68,7 @@ toggleOptions = () => {
     // console.log("Rendering Record component");
     const { type, showOptions } = this.state;
 
-    const activityOptions = [ "I walked for 30mins today...", "Cycled to work..","Had anamazing broccoli salad","How can I make my day better?"];
-
-
+    const activityOptions = [ "I walked for 30mins today...", "Breasts self-exam","Morning stretch","How can I make my day better?"];
     return (
       <div className="container">
         <h1> Track Your Healthy Activities </h1>

@@ -1,7 +1,9 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import cat from "../assets/img/cat.svg"
+import cat from "../assets/img/cat.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 class HealthList extends Component {
   constructor(props) {
@@ -86,78 +88,89 @@ class HealthList extends Component {
 
     const { healthRecords } = this.props;
     return (
-      <div className="container">
-        <h1>Health Logs</h1>
-        
+      <div className="App">
+        <div className="container">
+          <h1>Health Logs</h1>
+
           {healthRecords.length === 0 ? (
-        <p>No recorded items available</p>
-      ) : ( 
-        <div>
-          {healthRecords.map((record, index) => (
-            <div  className="health-record"  key={index}> 
-              <strong>Date:</strong>  <p className="logs">   {record.date}</p>
-              <strong>Activity Type:</strong> 
-              <p className="logs">
-                {record.type}
-              </p>
-              <strong> Notes:</strong> 
-              <p className="logs"> {record.info}</p>
-              <div className="button-container">
-              <button onClick={() => this.handleEdit(record.id)} className="button-secondary">Edit </button>
-              <button onClick={() => this.handleDelete(record.id)} className=" button-secondary">
-                Delete{" "}
-              </button>
-              </div>
+            <p>No recorded items available</p>
+          ) : (
+            <div className="logs-table">
+              {healthRecords.map((record, index) => (
+                <div className="logs-row" key={index}>
+                  <div className="logs-col">
+                    {new Date(record.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </div>
+                  <div className="logs-col">{record.type}</div>
+                  <div className="logs-col">{record.info}</div>
+                  <div className="button-container">
+                    <button
+                      onClick={() => this.handleEdit(record.id)}
+                      className="button-secondary"
+                    >
+                      <FontAwesomeIcon icon={faPencilAlt} />
+                    </button>
+                    <button
+                      onClick={() => this.handleDelete(record.id)}
+                      className="button-secondary"
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+          <div className="button-container">
+            <Link to="/record" className="button-link">
+              Track
+            </Link>
+            <Link to="/" className="button-link">
+              Home
+            </Link>
+          </div>
+
+          {this.state.editedRecordId && (
+            <div>
+              <form className="edit-form">
+                <label>Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={this.state.editedRecordData.date}
+                  onChange={this.handleEditChange}
+                />
+                <label> Activity type</label>
+                <input
+                  type="text"
+                  name="type"
+                  value={this.state.editedRecordData.type}
+                  onChange={this.handleEditChange}
+                />
+
+                <label>Note</label>
+                <textarea
+                  name="info"
+                  value={this.state.editedRecordData.info}
+                  onChange={this.handleEditChange}
+                />
+                <button
+                  className=" button-secondary"
+                  type="button"
+                  onClick={this.handleEditSubmit}
+                >
+                  Save
+                </button>
+              </form>
+            </div>
+          )}
+          <img src={cat} alt="Cute cat illustration" />
         </div>
-    )}
-            <div className="button-container">
-          <Link to="/record" className="button-link">
-            Track
-          </Link>
-          <Link to="/" className="button-link">
-            Home
-          </Link>
-          </div>
-
-        {this.state.editedRecordId && (
-          <div>
-            <p> Edit Log</p>
-            <form  className="edit-form">
-           
-              <label>Date</label>
-              <input
-                type="date"
-                name="date"
-                value={this.state.editedRecordData.date}
-                onChange={this.handleEditChange}
-              />
-                 <label> Activity type</label>
-              <input
-                type="text"
-                name="type"
-                value={this.state.editedRecordData.type}
-                onChange={this.handleEditChange}
-              />
-
-              <label>Note</label>
-              <textarea
-                name="info"
-                value={this.state.editedRecordData.info}
-                onChange={this.handleEditChange}
-              />
-              <button className= " button-secondary"type="button" onClick={this.handleEditSubmit}>
-                Save
-              </button>
-            </form>
-          </div>
-        )}
-              <img src={cat} alt="Cute cat illustration" />
-
-
       </div>
-      
     );
   }
 }

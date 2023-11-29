@@ -14,36 +14,52 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Roboto', sans-serif;
-    min-height: 100vh;  
   }
 
   .container {
-    
-    background-color: #ffef8a;
     color: #8a2be2;
+    background-color: #ffef8a;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    min-height: 400px;
+    min-height: 100vh; 
+    margin: 10px;
+
   }  
 
   @media (min-width: 768px) {
     .container {
-      min-height: 60vh; /* Adjust based on your design */
+      min-height: 60vh; 
     }
   }
 
-  .health-record {
-    padding: 10px 20px;
+  .logs-table {
+    width: 100%;
+    padding: 10px 20px
+  }
+  
+  .logs-row {
     display: flex;
-    flex-direction: row;  
     align-items: center;
-    margin: 10px;
-    gap: 0.5rem
-}
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #fff; /* Add a background color for each row */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for separation */
+  }
+  
+  .logs-col {
+    flex: 1;
+  }
+  
+  @media (max-width: 480px) {
+    .logs-row {
+      flex-direction: column;
+    }
+  }
 
   .button-container {
     display: flex;
@@ -65,10 +81,10 @@ body {
   }
 
   .button-secondary {
-    padding: 10px 20px;
+    padding: 10px;
     color: #8a2be2;
     background-color: #ffef8a;
-    border: 1px solid  #8a2be2;
+    border: none;
     font-family: 'Roboto', sans-serif;
     border-radius: 4px;
     cursor: pointer;
@@ -105,7 +121,7 @@ body {
 
 img {
     margin-top: 20px;
-    max-width: 100%;
+    max-width: 60%;
     height: auto;
   
 }
@@ -144,7 +160,7 @@ form {
     padding: 10px
   }
   
-  .edit-form {
+    .edit-form {
     flex-direction: row;  
     width: 100%;
     gap: 0.5rem;
