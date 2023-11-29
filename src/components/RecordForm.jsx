@@ -1,5 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import dogWalk from "../assets/img/dogWalk.svg"
+
 
 class RecordForm extends Component {
   constructor(props) {
@@ -56,14 +58,14 @@ toggleOptions = () => {
 
   render() {
     // console.log("Rendering Record component");
-    const { type, date, info, showOptions } = this.state;
+    const { type, showOptions } = this.state;
 
     const activityOptions = [ "I walked for 30mins today...", "Cycled to work..","Had anamazing broccoli salad","How can I make my day better?"];
 
 
     return (
       <div className="container">
-        <h1> Record Health Activity </h1>
+        <h1> Track Your Healthy Activities </h1>
         <div className="dropdown">
             <p onClick={this.toggleOptions} className="dropdown-trigger">
               {type || "Need a prompt to get you going?"}
@@ -106,9 +108,9 @@ toggleOptions = () => {
           <button type="submit" className="button-link button-secondary">Submit </button>
         </form>
         <div className="button-container">
-      <Link to="/record" className="button-link"> Track </Link>
-      <Link to="/health" className="button-link"> Review </Link>
+      <Link to="/health" className="button-link"> Review Logs</Link>
       </div> 
+      <img src={dogWalk} alt="Person walking the dog" />
       </div>
     );
   }

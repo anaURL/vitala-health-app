@@ -1,6 +1,7 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import cat from "../assets/img/cat.svg"
 
 class HealthList extends Component {
   constructor(props) {
@@ -86,7 +87,7 @@ class HealthList extends Component {
     const { healthRecords } = this.props;
     return (
       <div className="container">
-        <h1>Health Records</h1>
+        <h1>Health Logs</h1>
         
           {healthRecords.length === 0 ? (
         <p>No recorded items available</p>
@@ -94,11 +95,13 @@ class HealthList extends Component {
         <div>
           {healthRecords.map((record, index) => (
             <div  className="health-record"  key={index}> 
-               <p>  {record.date}</p>
-              <p>
+              <strong>Date:</strong>  <p className="logs">   {record.date}</p>
+              <strong>Activity Type:</strong> 
+              <p className="logs">
                 {record.type}
               </p>
-              <p>{record.info}</p>
+              <strong> Notes:</strong> 
+              <p className="logs"> {record.info}</p>
               <div className="button-container">
               <button onClick={() => this.handleEdit(record.id)} className="button-secondary">Edit </button>
               <button onClick={() => this.handleDelete(record.id)} className=" button-secondary">
@@ -120,16 +123,9 @@ class HealthList extends Component {
 
         {this.state.editedRecordId && (
           <div>
-            <h3> Edit Record</h3>
-            <form>
-              <label> Type</label>
-              <input
-                type="text"
-                name="type"
-                value={this.state.editedRecordData.type}
-                onChange={this.handleEditChange}
-              />
-
+            <p> Edit Log</p>
+            <form  className="edit-form">
+           
               <label>Date</label>
               <input
                 type="date"
@@ -137,18 +133,28 @@ class HealthList extends Component {
                 value={this.state.editedRecordData.date}
                 onChange={this.handleEditChange}
               />
-              <label>Info</label>
+                 <label> Activity type</label>
+              <input
+                type="text"
+                name="type"
+                value={this.state.editedRecordData.type}
+                onChange={this.handleEditChange}
+              />
+
+              <label>Note</label>
               <textarea
                 name="info"
                 value={this.state.editedRecordData.info}
                 onChange={this.handleEditChange}
               />
-              <button className= "button-link button-secondary"type="button" onClick={this.handleEditSubmit}>
+              <button className= " button-secondary"type="button" onClick={this.handleEditSubmit}>
                 Save
               </button>
             </form>
           </div>
         )}
+              <img src={cat} alt="Cute cat illustration" />
+
 
       </div>
       
