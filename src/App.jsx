@@ -1,15 +1,17 @@
 import { Component } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from './pages/HomePage';
 import RecordForm from "./components/RecordForm";
 import HealthList from "./components/HealthList";
-
+import "./index.css";
 class App extends Component {
   constructor(props) {
     super(props);
-     const storedRecords = localStorage.getItem("healthRecords");
-     this.state = {
-        healthRecords: storedRecords ? JSON.parse(storedRecords) : [],
-     };
+    const storedRecords = localStorage.getItem("healthRecords");
+    this.state = {
+      healthRecords: storedRecords ? JSON.parse(storedRecords) : [],
+      notification: null,
+    };
   }
 
   updateHealthRecords = (newRecords, callback) => {
@@ -20,7 +22,6 @@ class App extends Component {
       }
     });
   };
-  
 
   addHealthRecord = (newRecord) => {
     this.setState((prevState) => ({
@@ -43,22 +44,11 @@ class App extends Component {
     });
   };
   render() {
-    // console.log("Health Records Data:", this.state.healthRecords);
-
     return (
       <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/record">Record </Link>
-              </li>
-              <li>
-                <Link to="/health">Health Records </Link>
-              </li>
-            </ul>
-          </nav>
-          <Routes>
+        <div className="App">
+        <Routes>
+        <Route path="/" element={<HomePage />} />
             <Route
               path="/record"
               element={<RecordForm addHealthRecord={this.addHealthRecord} />}
@@ -69,7 +59,7 @@ class App extends Component {
                 <HealthList
                   healthRecords={this.state.healthRecords}
                   editRecord={this.editRecord}
-                  updateHealthRecords={this.updateHealthRecords} 
+                  updateHealthRecords={this.updateHealthRecords}
                 />
               }
             />
