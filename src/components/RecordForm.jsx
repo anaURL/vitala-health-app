@@ -8,6 +8,7 @@ class RecordForm extends Component {
       date: "",
       info: "",
       healthRecords: [],
+      notifications: []
     };
   }
 
@@ -33,13 +34,14 @@ class RecordForm extends Component {
       date: "",
       info: "",
     });
-  };
+};
+
 
   render() {
     // console.log("Rendering Record component");
 
     return (
-      <div>
+      <div className="container">
         <h1> Record Health Activity </h1>
         <form onSubmit={this.handleSubmit}>
           <label> Type </label>

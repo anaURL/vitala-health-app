@@ -1,7 +1,6 @@
 import { Component } from "react";
 import PropTypes from 'prop-types';
 
-
 class HealthList extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +36,9 @@ class HealthList extends Component {
       },
     }));
   };
+
+
+
   handleEditSubmit = () => {
     this.props.editRecord(
       this.state.editedRecordId,
@@ -51,6 +53,7 @@ class HealthList extends Component {
         info: "",
       },
     });
+
   };
 
   handleDelete = (recordId) => {
@@ -75,9 +78,9 @@ class HealthList extends Component {
           },
         });
       }
+
     };
 
-    
 
   render() {
     console.log("HealthList component is rendering.");
@@ -92,8 +95,8 @@ class HealthList extends Component {
       <div>
         <h2>Health Records</h2>
         <ul>
-          {healthRecords.map((record) => (
-            <li key={record.id}>
+          {healthRecords.map((record,index) => (
+            <li key={index}>
               <span>
                 {record.type} - {record.date}
               </span>
@@ -137,6 +140,7 @@ class HealthList extends Component {
             </form>
           </div>
         )}
+
       </div>
     );
   }
