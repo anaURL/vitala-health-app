@@ -63,6 +63,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
+            <div className="container"> 
         <Routes>
         <Route path="/" element={<HomePage />} />
             <Route
@@ -81,6 +82,7 @@ class App extends Component {
               }
             />
           </Routes>
+        </div>
         </div>
       </Router>
     );
