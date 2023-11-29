@@ -7,6 +7,7 @@ import "./index.css";
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log("Constructor called");
     const storedRecords = localStorage.getItem("healthRecords");
     this.state = {
       healthRecords: storedRecords ? JSON.parse(storedRecords) : [],
@@ -15,30 +16,46 @@ class App extends Component {
   }
 
   updateHealthRecords = (newRecords, callback) => {
+    console.log("Updating health records:", newRecords);
+  
     this.setState({ healthRecords: newRecords }, () => {
-      localStorage.setItem("healthRecords", JSON.stringify(newRecords));
-      if (callback) {
-        callback();
+      try {
+        localStorage.setItem("healthRecords", JSON.stringify(newRecords));
+        console.log("Local storage updated successfully.");
+        if (callback) {
+          callback();
+        }
+      } catch (error) {
+        console.error("Error updating local storage:", error);
       }
     });
   };
 
   addHealthRecord = (newRecord) => {
-    this.setState((prevState) => ({
-      healthRecords: [
-        ...prevState.healthRecords,
-        {
-          ...newRecord,
-          id: prevState.healthRecords.length + 1,
-        },
-      ],
-    }));
+    console.log("Adding new record:", newRecord);
+  
+    this.setState(
+      (prevState) => ({
+        healthRecords: [
+          ...prevState.healthRecords,
+          {
+            ...newRecord,
+            id: prevState.healthRecords.length + 1,
+          },
+        ],
+      }),
+      () => {
+        this.updateHealthRecords(this.state.healthRecords);
+      }
+    );
   };
+  
 
   editRecord = (recordId, updatedRecordData) => {
     const updatedRecords = this.state.healthRecords.map((record) =>
       record.id === recordId ? { ...record, ...updatedRecordData } : record
     );
+    this.props.updateHealthRecords(updatedRecords);
     this.setState({
       healthRecords: updatedRecords,
     });
@@ -51,7 +68,8 @@ class App extends Component {
         <Route path="/" element={<HomePage />} />
             <Route
               path="/record"
-              element={<RecordForm addHealthRecord={this.addHealthRecord} />}
+              element={<RecordForm addHealthRecord={this.addHealthRecord} updateHealthRecords={this.updateHealthRecords} />}
+
             />
             <Route
               path="/health"
