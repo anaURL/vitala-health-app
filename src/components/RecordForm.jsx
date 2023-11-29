@@ -9,7 +9,8 @@ class RecordForm extends Component {
       date: "",
       info: "",
       healthRecords: [],
-      notifications: []
+      notifications: [],
+      showOptions: false,
     };
   }
 
@@ -39,12 +40,48 @@ class RecordForm extends Component {
     });
 };
 
+toggleOptions = () => {
+    this.setState((prevState) => ({
+      showOptions: !prevState.showOptions,
+    }));
+  };
+
+
+  handleOptionSelect = (option) => {
+    this.setState({
+      type: option,
+      showOptions: false,
+    });
+  };
+
   render() {
     // console.log("Rendering Record component");
+    const { type, date, info, showOptions } = this.state;
+
+    const activityOptions = [ "I walked for 30mins today...", "Cycled to work..","Had anamazing broccoli salad","How can I make my day better?"];
+
 
     return (
       <div className="container">
         <h1> Record Health Activity </h1>
+        <div className="dropdown">
+            <p onClick={this.toggleOptions} className="dropdown-trigger">
+              {type || "Need a prompt to get you going?"}
+            </p>
+            {showOptions && (
+              <div className="dropdown-menu">
+                {activityOptions.map((option) => (
+                  <div
+                    key={option}
+                    className="dropdown-item"
+                    onClick={() => this.handleOptionSelect(option)}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         <form onSubmit={this.handleSubmit}>
           <label> Type </label>
           <input
@@ -60,13 +97,13 @@ class RecordForm extends Component {
             value={this.state.date}
             onChange={this.handleChange}
           />
-          <label> Info </label>
+          <label> Notes </label>
           <textarea
             name="info"
             value={this.state.info}
             onChange={this.handleChange}
           />
-          <button type="submit">Submit </button>
+          <button type="submit" className="button-link button-secondary">Submit </button>
         </form>
         <div className="button-container">
       <Link to="/record" className="button-link"> Track </Link>

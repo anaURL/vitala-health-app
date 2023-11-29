@@ -86,22 +86,25 @@ class HealthList extends Component {
     const { healthRecords } = this.props;
     return (
       <div className="container">
-        <h2>Health Records</h2>
+        <h1>Health Records</h1>
         
           {healthRecords.length === 0 ? (
         <p>No recorded items available</p>
       ) : ( 
         <div>
           {healthRecords.map((record, index) => (
-            <div key={index}> 
-              <h3>
-                {record.type} - {record.date}
-              </h3>
+            <div  className="health-record"  key={index}> 
+               <p>  {record.date}</p>
+              <p>
+                {record.type}
+              </p>
               <p>{record.info}</p>
-              <button onClick={() => this.handleEdit(record.id)}>Edit </button>
-              <button onClick={() => this.handleDelete(record.id)}>
+              <div className="button-container">
+              <button onClick={() => this.handleEdit(record.id)} className="button-secondary">Edit </button>
+              <button onClick={() => this.handleDelete(record.id)} className=" button-secondary">
                 Delete{" "}
               </button>
+              </div>
             </div>
           ))}
         </div>
@@ -140,7 +143,7 @@ class HealthList extends Component {
                 value={this.state.editedRecordData.info}
                 onChange={this.handleEditChange}
               />
-              <button type="button" onClick={this.handleEditSubmit}>
+              <button className= "button-link button-secondary"type="button" onClick={this.handleEditSubmit}>
                 Save
               </button>
             </form>

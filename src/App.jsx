@@ -55,11 +55,10 @@ class App extends Component {
     const updatedRecords = this.state.healthRecords.map((record) =>
       record.id === recordId ? { ...record, ...updatedRecordData } : record
     );
-    this.props.updateHealthRecords(updatedRecords);
     this.setState({
-      healthRecords: updatedRecords,
-    });
-  };
+        healthRecords: updatedRecords,
+      });
+    };
   render() {
     return (
       <Router>
