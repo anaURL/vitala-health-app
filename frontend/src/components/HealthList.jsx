@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import cat from "../assets/img/cat.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
 const formatHealthRecordDate = (date) => {
-  const [month, day, year] = date.split("/");
-  return `${day}/${month}/${year}`;
+  if (!date) {
+    return "";
+  }
+  return moment(date).format("DD-MM-YYYY");
 };
 
 class HealthList extends Component {
@@ -23,19 +26,47 @@ class HealthList extends Component {
     };
   }
 
-  handleEdit = (recordId) => {
-    const recordToEdit = this.props.healthRecords.find(
-      (record) => record.id === recordId
-    );
+  componentDidMount() {
+    console.log("Fetching health records...");
+    fetch("http://localhost:3001/api/healthrecords")
+      .then((response) => response.json())
+      .then((data) => {
+        // Format dates for display in the UI
+        const formattedData = data.map((record) => ({
+          ...record,
+          date: formatHealthRecordDate(record.date),
+        }));
 
-    this.setState({
-      editedRecordId: recordId,
-      editedRecordData: {
-        type: recordToEdit.type,
-        date: recordToEdit.date,
-        info: recordToEdit.info,
-      },
-    });
+        console.log("Fetched health records:", formattedData);
+        this.setState({ healthRecords: formattedData });
+      })
+      .catch((error) => {
+        console.error("Error fetching health records:", error);
+      });
+  }
+
+  handleEdit = (recordId) => {
+    fetch(`http://localhost:3001/api/healthrecords/${recordId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((healthRecord) => {
+        // Set the fetched health record in the component state
+        this.setState({
+          editedRecordId: recordId,
+          editedRecordData: {
+            type: healthRecord.type,
+            date: healthRecord.date,
+            info: healthRecord.info,
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching record details:", error);
+      });
   };
 
   handleEditChange = (e) => {
@@ -48,45 +79,78 @@ class HealthList extends Component {
   };
 
   handleEditSubmit = () => {
-    this.props.editRecord(
-      this.state.editedRecordId,
-      this.state.editedRecordData
-    );
+    const { editedRecordId, editedRecordData } = this.state;
+    const formattedDate = formatHealthRecordDate(editedRecordData.date);
 
-    this.setState({
-      editedRecordId: null,
-      editedRecordData: {
-        type: "",
-        date: "",
-        info: "",
+    fetch(`http://localhost:3001/api/healthrecords/${editedRecordId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
-    });
+      body: JSON.stringify({
+        ...editedRecordData,
+        date: formattedDate,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((updatedRecord) => {
+        // Update the record in the parent component's state
+        this.props.editRecord(editedRecordId, updatedRecord);
+
+        // Reset the component state
+        this.setState({
+          editedRecordId: null,
+          editedRecordData: {
+            type: "",
+            date: "",
+            info: "",
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating record:", error);
+      });
   };
 
   handleDelete = (recordId) => {
     console.log("Deleting record with id:", recordId);
 
-    const updatedRecords = this.props.healthRecords.filter(
-      (record) => record.id !== recordId
-    );
+    fetch(`http://localhost:3001/api/healthrecords/${recordId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(() => {
+        // Update the parent component's state after successful deletion
+        const updatedRecords = this.props.healthRecords.filter(
+          (record) => record._id !== recordId
+        );
+        this.props.updateHealthRecords(updatedRecords);
 
-    this.props.updateHealthRecords(updatedRecords, () => {
-      console.log(
-        "After deleting, healthRecords in App component:",
-        updatedRecords
-      );
-    });
-
-    if (this.state.editedRecordId === recordId) {
-      this.setState({
-        editedRecordId: null,
-        editedRecordData: {
-          type: "",
-          date: "",
-          info: "",
-        },
+        // Reset the component state if the deleted record was being edited
+        if (this.state.editedRecordId === recordId) {
+          this.setState({
+            editedRecordId: null,
+            editedRecordData: {
+              type: "",
+              date: "",
+              info: "",
+            },
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting record:", error);
       });
-    }
   };
 
   render() {
@@ -110,13 +174,13 @@ class HealthList extends Component {
                   <div className="logs-col">{record.info}</div>
                   <div className="button-container-2">
                     <button
-                      onClick={() => this.handleEdit(record.id)}
+                      onClick={() => this.handleEdit(record._id)}
                       className="button-secondary"
                     >
                       <FontAwesomeIcon icon={faPencilAlt} />
                     </button>
                     <button
-                      onClick={() => this.handleDelete(record.id)}
+                      onClick={() => this.handleDelete(record._id)}
                       className="button-secondary"
                     >
                       <FontAwesomeIcon icon={faTrash} />

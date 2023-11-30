@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import RecordForm from "./components/RecordForm";
 import HealthList from "./components/HealthList";
 import "./index.css";
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +54,7 @@ class App extends Component {
 
   editRecord = (recordId, updatedRecordData) => {
     const updatedRecords = this.state.healthRecords.map((record) =>
-      record.id === recordId ? { ...record, ...updatedRecordData } : record
+      record._id === recordId ? { ...record, ...updatedRecordData } : record
     );
     this.setState({
       healthRecords: updatedRecords,
