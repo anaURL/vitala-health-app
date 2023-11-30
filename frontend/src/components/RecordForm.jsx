@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import dogWalk from "../assets/img/dogWalk.svg";
+import moment from "moment";
 
 class RecordForm extends Component {
   constructor(props) {
@@ -25,11 +26,9 @@ class RecordForm extends Component {
 
     const parsedDate = new Date(this.state.date);
 
-    const formattedDate = parsedDate.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    // Format the date as "YYYY-MM-DD"
+    const formattedDate = moment(parsedDate).utc().format("YYYY-MM-DD");
+
     const newRecord = {
       id: this.state.healthRecords.length + 1,
       type: this.state.type,
@@ -37,14 +36,32 @@ class RecordForm extends Component {
       info: this.state.info,
     };
 
-    // eslint-disable-next-line react/prop-types
-    this.props.addHealthRecord(newRecord);
+    fetch("http://localhost:3001/api/healthrecords/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newRecord),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((addedRecord) => {
+        // eslint-disable-next-line react/prop-types
+        this.props.addHealthRecord(addedRecord);
 
-    this.setState({
-      type: "",
-      date: "",
-      info: "",
-    });
+        this.setState({
+          type: "",
+          date: "",
+          info: "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
   };
 
   toggleOptions = () => {
