@@ -2,21 +2,27 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-      sans-serif;
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
 
-  }
-
-  .App {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+h1 {
     font-family: 'Roboto', sans-serif;
-  }
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+    text-align: center
+}
 
-  .container {
+p {
+    font-family: 'Cutive Mono', monospace;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.container {
     color: #8a2be2;
     background-color: #ffef8a;
     border-radius: 15px;
@@ -25,62 +31,92 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    min-height: 100vh; 
-    margin: 10px;
+    min-height: 100vh;
+    width: 40vw;
+    margin: 0 auto;
+    padding: 40px;
+}
 
-  }  
-
-  @media (min-width: 768px) {
+@media (max-width: 480px) {
     .container {
-      min-height: 60vh; 
+        min-height: 60vh;
     }
-  }
+}
 
-  .logs-table {
+/* Logs Table */
+
+.logs-table {
     width: 100%;
-    padding: 10px 20px
-  }
-  
-  .logs-row {
+    font-family: 'Cutive Mono', monospace;
+    font-weight: 600;
+}
+
+.logs {
+    background-color: white;
+    padding: 10px
+}
+
+.logs-row {
     display: flex;
     align-items: center;
     padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #fff; /* Add a background color for each row */
+    margin: 10px;
+    background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for separation */
-  }
-  
-  .logs-col {
-    flex: 1;
-  }
-  
-  @media (max-width: 480px) {
-    .logs-row {
-      flex-direction: column;
-    }
-  }
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .button-container {
+.logs-col {
+    flex: 1;
+    padding: 5px;
+}
+
+@media (max-width: 480px) {
+    .logs-row {
+        flex-direction: column;
+        gap: 0.5rem
+    }
+}
+
+/* Buttons */
+
+.button-container {
     display: flex;
-    gap: 5px
-    
-  }
-  
-  .button-link {
+    justify-content: center;
+    align-items: center;
+    gap: 20px
+}
+
+.button-container-2 {
+    gap: 0
+}
+
+@media (max-width: 480px) {
+    .button-container {
+        flex-direction: column;
+        gap: 0
+    }
+}
+
+.button-link {
     display: flex;
     padding: 10px 20px;
-    margin: 15px;
+    margin-top: 15px;
     text-decoration: none;
     color: #fff;
     background-color: #8a2be2;
     border-radius: 20px;
     transition: background-color 0.3s;
     font-family: 'Cutive Mono', monospace;
-    
-  }
+}
 
-  .button-secondary {
+@media (max-width: 480px) {
+    .button-link {
+        margin-top: 0
+    }
+}
+
+.button-secondary {
     padding: 10px;
     color: #8a2be2;
     background-color: #ffef8a;
@@ -89,29 +125,19 @@ body {
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
-  }
+}
 
-  button:hover {
+button:hover {
     background-color: #8a2be2;
     color: #ffef8a;
-  }
-  
-  h1 {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 0.2rem;
-    text-align: center
-  }
-
-  p {
-    font-family: 'Cutive Mono', monospace;
-    font-size: 1rem;
-    text-align: center;
-
 }
 
 .dropdown-trigger {
     font-size: 1.2rem;
+}
+
+.dropdown:hover {
+    cursor: pointer;
 }
 
 .dropdown-item {
@@ -123,46 +149,38 @@ img {
     margin-top: 20px;
     max-width: 60%;
     height: auto;
-  
+
 }
+
+/* Form */
+
+
 form {
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;
     align-items: center;
     width: 60%;
     padding: 10px
-  }
+}
 
-  label {
-    margin: 8px 0;  
+label {
+    margin: 8px 0;
     color: #8a2be2;
     font-family: 'Cutive Mono', monospace;
 
-  }
-  
-  input,
-  textarea {
-    width: 100%;  
+}
+
+input,
+textarea {
+    width: 100%;
     padding: 8px;
     margin: 8px 0;
     border-radius: 4px;
     border: 1px solid #ccc;
-  }
-  
-  .button-link {
-    width: auto;  
-    margin-top: 15px; 
-  }
+}
 
-
-  .logs {
-    background-color: white;
-    padding: 10px
-  }
-  
-    .edit-form {
-    flex-direction: row;  
+.edit-form {
+    flex-direction: row;
     width: 100%;
     gap: 0.5rem;
-  }
-  
+}

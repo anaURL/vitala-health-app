@@ -5,6 +5,11 @@ import cat from "../assets/img/cat.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
+const formatHealthRecordDate = (date) => {
+  const [month, day, year] = date.split("/");
+  return `${day}/${month}/${year}`;
+};
+
 class HealthList extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +22,7 @@ class HealthList extends Component {
       },
     };
   }
+
   handleEdit = (recordId) => {
     const recordToEdit = this.props.healthRecords.find(
       (record) => record.id === recordId
@@ -88,10 +94,9 @@ class HealthList extends Component {
 
     const { healthRecords } = this.props;
     return (
-      <div className="App">
-        <div className="container">
-          <h1>Health Logs</h1>
-
+      <div className="container">
+        <h1>Health Logs</h1>
+        <div>
           {healthRecords.length === 0 ? (
             <p>No recorded items available</p>
           ) : (
@@ -99,15 +104,11 @@ class HealthList extends Component {
               {healthRecords.map((record, index) => (
                 <div className="logs-row" key={index}>
                   <div className="logs-col">
-                    {new Date(record.date).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
+                    {formatHealthRecordDate(record.date)}
                   </div>
                   <div className="logs-col">{record.type}</div>
                   <div className="logs-col">{record.info}</div>
-                  <div className="button-container">
+                  <div className="button-container-2">
                     <button
                       onClick={() => this.handleEdit(record.id)}
                       className="button-secondary"
@@ -129,6 +130,7 @@ class HealthList extends Component {
             <Link to="/record" className="button-link">
               Track
             </Link>
+
             <Link to="/" className="button-link">
               Home
             </Link>
