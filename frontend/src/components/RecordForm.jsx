@@ -98,7 +98,7 @@ class RecordForm extends Component {
 
   render() {
     // console.log("Rendering Record component");
-    const { type, showOptions } = this.state;
+    const { showOptions } = this.state;
 
     const activityOptions = [
       "I walked for 30mins today...",
@@ -110,8 +110,8 @@ class RecordForm extends Component {
       <div className="container">
         <h1> Track Your Healthy Activities </h1>
         <div className="dropdown">
-          <p onClick={this.toggleOptions} className="dropdown-trigger">
-            {type || "Need a prompt to get you going?"}
+        <p onClick={this.toggleOptions} className="dropdown-trigger">
+            Need a prompt to get you going?
           </p>
           {showOptions && (
             <div className="dropdown-menu">
@@ -128,12 +128,13 @@ class RecordForm extends Component {
           )}
         </div>
         <form onSubmit={this.handleSubmit}>
-          <label> Type </label>
+          <label> Add your health activity</label>
           <input
             type="text"
             name="type"
             value={this.state.type}
             onChange={this.handleChange}
+            required
           />
           <label> Date</label>
           <input
@@ -141,6 +142,7 @@ class RecordForm extends Component {
             name="date"
             value={this.state.date}
             onChange={this.handleChange}
+            required
           />
           <label> Notes </label>
           <textarea

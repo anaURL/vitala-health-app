@@ -5,8 +5,7 @@ import cat from "../assets/img/cat.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 const formatHealthRecordDate = (date) => {
   if (!date) {
@@ -104,8 +103,9 @@ class HealthList extends Component {
         // Update the record in the parent component's state
         this.props.editRecord(editedRecordId, updatedRecord);
 
-        toast.success('Activity updated successfully!', { position: 'top-center' });
-
+        toast.success("Activity updated successfully!", {
+          position: "top-center",
+        });
 
         // Reset the component state
         this.setState({
@@ -140,8 +140,9 @@ class HealthList extends Component {
           (record) => record._id !== recordId
         );
         this.props.updateHealthRecords(updatedRecords);
-        toast.success('Activity deleted successfully!', { position: 'top-center' });
-
+        toast.success("Activity deleted successfully!", {
+          position: "top-center",
+        });
 
         // Reset the component state if the deleted record was being edited
         if (this.state.editedRecordId === recordId) {
@@ -174,11 +175,11 @@ class HealthList extends Component {
             <div className="logs-table">
               {healthRecords.map((record, index) => (
                 <div className="logs-row" key={index}>
-                  <div className="logs-col">
+                  <div className="logs-col date">
                     {formatHealthRecordDate(record.date)}
                   </div>
-                  <div className="logs-col">{record.type}</div>
-                  <div className="logs-col">{record.info}</div>
+                  <div className="logs-col type">{record.type}</div>
+                  <div className="logs-col info">{record.info}</div>
                   <div className="button-container-2">
                     <button
                       onClick={() => this.handleEdit(record._id)}
@@ -210,14 +211,13 @@ class HealthList extends Component {
           {this.state.editedRecordId && (
             <div>
               <form className="edit-form">
-                <label>Date</label>
                 <input
                   type="date"
                   name="date"
                   value={this.state.editedRecordData.date}
                   onChange={this.handleEditChange}
                 />
-                <label> Activity type</label>
+
                 <input
                   type="text"
                   name="type"
@@ -225,7 +225,6 @@ class HealthList extends Component {
                   onChange={this.handleEditChange}
                 />
 
-                <label>Note</label>
                 <textarea
                   name="info"
                   value={this.state.editedRecordData.info}
