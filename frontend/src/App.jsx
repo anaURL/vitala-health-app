@@ -4,7 +4,8 @@ import HomePage from "./pages/HomePage";
 import RecordForm from "./components/RecordForm";
 import HealthList from "./components/HealthList";
 import "./index.css";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 class App extends Component {
   constructor(props) {
@@ -85,6 +86,18 @@ class App extends Component {
             }
           />
         </Routes>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </Router>
     );
   }
