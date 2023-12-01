@@ -5,6 +5,8 @@ import cat from "../assets/img/cat.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { toast } from 'react-toastify';
+
 
 const formatHealthRecordDate = (date) => {
   if (!date) {
@@ -102,6 +104,9 @@ class HealthList extends Component {
         // Update the record in the parent component's state
         this.props.editRecord(editedRecordId, updatedRecord);
 
+        toast.success('Activity updated successfully!', { position: 'top-center' });
+
+
         // Reset the component state
         this.setState({
           editedRecordId: null,
@@ -135,6 +140,8 @@ class HealthList extends Component {
           (record) => record._id !== recordId
         );
         this.props.updateHealthRecords(updatedRecords);
+        toast.success('Activity deleted successfully!', { position: 'top-center' });
+
 
         // Reset the component state if the deleted record was being edited
         if (this.state.editedRecordId === recordId) {

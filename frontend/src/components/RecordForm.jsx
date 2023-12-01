@@ -2,6 +2,8 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import dogWalk from "../assets/img/dogWalk.svg";
 import moment from "moment";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class RecordForm extends Component {
   constructor(props) {
@@ -52,6 +54,14 @@ class RecordForm extends Component {
       .then((addedRecord) => {
         // eslint-disable-next-line react/prop-types
         this.props.addHealthRecord(addedRecord);
+        toast.success('Health activity added successfully!', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
         this.setState({
           type: "",
@@ -61,6 +71,15 @@ class RecordForm extends Component {
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
+        toast.error('Error adding health activity. Please try again.', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
       });
   };
 

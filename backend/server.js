@@ -7,8 +7,13 @@ const HealthRecord = require("./models/healthRecord");
 require("dotenv").config();
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
-const port = 3002;
+app.use(cors({
+  allowedHeaders: ['Content-Type'],
+  origin: 'http://localhost:5173',
+  preflightContinue: true
+}));
+
+const port = 3001;
 
 app.use(express.json());
 
